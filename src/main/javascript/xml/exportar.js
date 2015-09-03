@@ -85,6 +85,13 @@ var etapa = function (e) {
   ]);
 };
 
+var orgao = function (e) {
+  return m('orgao', [
+    m('id', e.id()),
+    m('nome', e.nome())
+  ]);
+};
+
 var solicitantes = function (sol) {
   return m('solicitantes', sol.map(function (s) {
     return m('solicitante', [
@@ -100,7 +107,6 @@ var xmlDoc = function (ns) {
 
 module.exports = function (servico) {
   var doc = xmlDoc('http://servicos.gov.br/v3/schema');
-
   m.render(doc, m('servico', {
     'xmlns': 'http://servicos.gov.br/v3/schema',
     'xmlns:xsi': 'http://www.w3.org/2001/XMLSchema-instance',
@@ -114,15 +120,12 @@ module.exports = function (servico) {
     solicitantes(servico.solicitantes()),
     tempoTotalEstimado(servico.tempoTotalEstimado()),
     m('etapas', servico.etapas().map(etapa)),
-    m('orgao', {
-      id: servico.orgao()
-    }),
+    orgao(servico.orgao()),
     m('segmentos-da-sociedade', servico.segmentosDaSociedade().map(item)),
     m('areas-de-interesse', servico.areasDeInteresse().map(item)),
     m('palavras-chave', servico.palavrasChave().map(item)),
     m('legislacoes', servico.legislacoes().map(item))
   ]));
-
   cdata(doc, 'descricao');
   cdata(doc, 'requisitos');
 
