@@ -74,11 +74,12 @@ module.exports = {
             }
 
             m.startComputation();
-            ctrl.prop().id(el.val());
-            ctrl.prop().nome(el.text());
+            ctrl.prop(el.val());
             m.endComputation();
           });
         }
+
+        el.select2('val', ctrl.prop());
       }
     }));
   }
